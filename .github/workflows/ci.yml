@@ -40,13 +40,11 @@ jobs:
     - name: Validate updated plugin manifests
       run : |
         echo $(git diff --name-only --diff-filter=AM ${GITHUB_REF##*/})
-        git diff --name-only --diff-filter=AM ${GITHUB_REF##*/} |
-          grep -E 'plugins/.*' | tee /dev/stderr |
-        git diff --name-only --diff-filter=AM ${GITHUB_REF##*/} |
-          grep -E 'plugins/.*' | tee /dev/stderr |
-          xargs -I _ $HOME/bin/validate-krew-manifest -manifest _
-        echo $(git diff)
         set -euo pipefail
+        git diff --name-only --diff-filter=AM ${GITHUB_REF##*/} |
+          grep -E 'plugins/.*' | tee /dev/stderr
+        set +euo pipefail
+        echo $(git diff)
         export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
         echo ${GITHUB_REF##*/}
         pwd
@@ -54,6 +52,7 @@ jobs:
         echo $PATH
         echo $GOBIN
         kubectl krew
+        set -euo pipefail
         git diff --name-only --diff-filter=AM ${GITHUB_REF##*/} |
           grep -E 'plugins/.*' | tee /dev/stderr |
           xargs -I _ $HOME/bin/validate-krew-manifest -manifest _
