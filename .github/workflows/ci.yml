@@ -40,6 +40,7 @@ jobs:
     - name: Validate updated plugin manifests
       run : |
         set -euo pipefail
+        export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
         git diff --name-only --diff-filter=AM ${{ github.event.before }} ${{ github.sha }} |
           grep -E 'plugins/.*' | tee /dev/stderr |
           xargs -I _ $HOME/bin/validate-krew-manifest -manifest _
