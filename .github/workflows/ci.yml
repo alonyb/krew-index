@@ -41,6 +41,7 @@ jobs:
       run : |
         git diff origin/${GITHUB_REF}
         git diff --name-only --diff-filter=AM ${{ github.event.before }}
+        git diff --name-only --diff-filter=AM ${{ github.event.before }} ${{ github.sha }}
         echo ${GITHUB_REF}
         git diff --name-only --diff-filter=AM origin/${GITHUB_REF##*/}
         set -euo pipefail
