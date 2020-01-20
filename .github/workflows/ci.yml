@@ -39,7 +39,7 @@ jobs:
         
     - name: Validate updated plugin manifests
       run : |
-        git diff ${GITHUB_REF}
+        git diff ${{ github.event.before }}
         git diff --name-only --diff-filter=AM ${{ github.event.before }}
         git diff --name-only --diff-filter=AM ${{ github.event.before }} ${{ github.sha }}
         echo ${GITHUB_REF}
