@@ -20,7 +20,7 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
       with:
-        fetch-depth: 0  # disable shallow clones
+          ref: refs/heads/master
 
     - name: Install kubectl
       run: |
@@ -50,4 +50,5 @@ jobs:
         git diff --name-only --diff-filter=AM "$GITHUB_BASE_REF...$GITHUB_SHA" -- plugins/ |
           tee /dev/stderr |
           xargs -I _ $HOME/bin/validate-krew-manifest -manifest _
+      
         
